@@ -7,7 +7,8 @@ export const YearMonthCalendar = ({
   open,
   axis,
   date,
-  setDate,
+  handleYear,
+  handleMonth,
   title = "Pick a Date",
   id,
   className,
@@ -16,37 +17,13 @@ export const YearMonthCalendar = ({
 }: YearMonthCalendarProps) => {
   const ref = useRef<HTMLDivElement>(null);
 
-  const handleYear = (selYear: number) => {
-    if (!setDate || !date) return;
-
-    if (selYear == date.year) {
-      setDate({ year: undefined, month: undefined });
-    } else {
-      setDate((cur) => {
-        return { ...cur, year: selYear };
-      });
-
-      setTimeout(() => (ref.current!.style.marginLeft = "-20rem"), 300);
-    }
-  };
-
-  const handleMonth = (selMonth: number) => {
-    if (!setDate || !date) return;
-
-    if (selMonth == date.month) {
-      setDate((cur) => {
-        return { ...cur, month: undefined };
-      });
-      return;
-    }
-
-    setDate((cur) => {
-      return { ...cur, month: selMonth };
-    });
-  };
-
   const handlePage = () => {
     ref.current!.style.marginLeft = "0";
+  };
+
+  const handleYearExtend = (e: number) => {
+    handleYear(e);
+    setTimeout(() => (ref.current!.style.marginLeft = "-20rem"), 300);
   };
 
   if (!open) return;
@@ -63,21 +40,21 @@ export const YearMonthCalendar = ({
               <ChevornLeft />
             </button>
             <span>
-              {date.year ? date.year : title}
-              {date.month && " · " + date.month}
+              {date && date.year ? date.year : title}
+              {date && date.year && date.month && " · " + date.month}
             </span>
           </div>
           <div ref={ref} className="relative duration-500">
             <YearCalendar
               date={date?.year && date.year}
-              handleDate={handleYear}
+              handleDate={handleYearExtend}
               axis={{ y: 0, x: 0 }}
               className="border-none rounded-none"
               backgroundColor={backgroundColor}
               open
             />
             <MonthCalendar
-              axis={{ y: 0, x: 20 }}
+              axis={{ y: 0, x: 320 }}
               date={date?.month && date.month}
               handleDate={handleMonth}
               className="border-none rounded-none"
@@ -107,30 +84,3 @@ const ChevornLeft = () => {
     </svg>
   );
 };
-
-// const handleYear = (clickedYear: number) => {
-//   if (!date || !setDate) return;
-
-//   if (date?.year == clickedYear) {
-//     setDate({ year: null, month: null });
-//     return;
-//   }
-
-//   setDate({ ...date, year: clickedYear });
-//   setTimeout(() => (ref.current!.style.marginLeft = "-20rem"), 150);
-// };
-
-// const handleMonth = (clickedMonth: number) => {
-//   if (!setDate || !date) return;
-
-//   if (date?.month == clickedMonth) setDate({ ...date, month: null });
-//   else setDate({ ...date, month: clickedMonth });
-// };
-
-// const handlePage = () => {
-//   ref.current!.style.marginLeft = "0";
-// };
-
-// const curYear = new Date().getFullYear();
-
-// if (!open) return;

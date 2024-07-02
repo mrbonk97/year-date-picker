@@ -9,7 +9,9 @@ export interface YearMonthCalendarProps {
     y: number;
     x: number;
   };
-  date: dateType;
+  date?: dateType;
+  handleYear: (e: number) => void;
+  handleMonth: (e: number) => void;
   setDate?: React.Dispatch<React.SetStateAction<dateType>>;
   title?: string;
   id?: string;
