@@ -9,18 +9,13 @@ function App() {
     year: undefined,
     month: undefined,
   });
+
   return (
-    <main className="p-5">
-      <PickerPicker
-        month={month}
-        setMonth={setMonth}
-        type="MONTH"
-        backgroundColor="bg-rose-300"
-      />
-      <div className="my-6 " />
-      <PickerPicker year={year} setYear={setYear} type="YEAR" />
-      <div className="my-6 " />
-      <PickerPicker date={date} setDate={setDate} type="YEAR_MONTH" />
+    <main className="p-20">
+      <PickerPicker month={month} setMonth={setMonth} type="MONTH" />
+
+      {/* <PickerPicker year={year} setYear={setYear} type="YEAR" /> */}
+      {/* <PickerPicker date={date} setDate={setDate} type="YEAR_MONTH" /> */}
     </main>
   );
 }
