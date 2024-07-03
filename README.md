@@ -10,11 +10,12 @@ you must have [tailwindcss](https://tailwindcss.com/) in you devDependencies to 
 
 Month Calendar
 
-[![Watch the video](https://github.com/mrbonk97/react-year-picker-gogo/blob/main/public/images/month-picker.png)](https://github.com/mrbonk97/react-year-picker-gogo/blob/main/public/videos/month-picker.mp4)
+https://github.com/mrbonk97/react-year-picker-gogo/assets/60309133/a9569489-c8e8-43da-9ab3-5336498e9204
 
 Year Month Calendar
 
-[![Watch the video](https://github.com/mrbonk97/react-year-picker-gogo/blob/main/public/images/year-month-picker.png)](https://github.com/mrbonk97/react-year-picker-gogo/blob/main/public/videos/year-month-picker.mp4)
+https://github.com/mrbonk97/react-year-picker-gogo/assets/60309133/cb108f33-9acb-40a3-a3ed-133ec78aa1dc
+
 
 ## Installation
 
