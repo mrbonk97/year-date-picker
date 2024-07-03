@@ -1,6 +1,7 @@
 {
   "name": "react-year-picker-gogo",
   "description": "React year month picker",
+  "version": "0.1.14",
   "author": {
     "name": "mrbonk97",
     "email": "hyunsuk1997@naver.com",
@@ -21,19 +22,18 @@
     "url": "git://github.com/mrbonk97/react-year-picker-gogo.git"
   },
   "private": false,
-  "version": "0.1.3",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && vite build --base=./",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "prepare": "npm run build"
   },
   "dependencies": {
-    "@types/node": "^20.14.9",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "vite-plugin-dts": "^3.9.1"
+    "tailwind-merge": "^2.3.0"
   },
   "devDependencies": {
     "@types/react": "^18.3.3",
@@ -41,11 +41,16 @@
     "@typescript-eslint/eslint-plugin": "^7.13.1",
     "@typescript-eslint/parser": "^7.13.1",
     "@vitejs/plugin-react": "^4.3.1",
+    "autoprefixer": "^10.4.19",
     "eslint": "^8.57.0",
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-react-refresh": "^0.4.7",
+    "postcss": "^8.4.39",
+    "tailwindcss": "^3.4.4",
     "typescript": "^5.2.2",
-    "vite": "^5.3.1"
+    "vite": "^5.3.1",
+    "vite-plugin-dts": "^3.9.1",
+    "@types/node": "^20.14.9"
   },
   "main": "dist/index.umd.js",
   "module": "dist/index.es.js",
@@ -55,7 +60,8 @@
       "import": "./dist/index.es.js",
       "require": "./dist/index.umd.js",
       "types": "./dist/index.d.ts"
-    }
+    },
+    "./styles": "./dist/style.css"
   },
   "files": [
     "/dist"

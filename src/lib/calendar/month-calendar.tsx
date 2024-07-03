@@ -1,5 +1,5 @@
+import { twMerge } from "tailwind-merge";
 import { CalendarProps } from "../types/react-year-gogo-types";
-import "../styles/calendar.css";
 
 export const MonthCalendar = ({
   axis,
@@ -17,11 +17,14 @@ export const MonthCalendar = ({
     <div
       id={id}
       ref={calendarRef}
-      className={`calendarContainer ${className}`}
+      className={twMerge(
+        "absolute p-2 w-80 h-60 rounded border shadow bg-white flex flex-col justify-between",
+        className
+      )}
       style={{ backgroundColor: backgroundColor, top: axis?.y, left: axis?.x }}
     >
       {new Array(3).fill(1).map((_, idx) => (
-        <ul key={idx} className="dateList">
+        <ul key={idx} className="flex justify-between">
           <li
             role="button"
             onClick={() => {
@@ -29,7 +32,7 @@ export const MonthCalendar = ({
               handleDate(idx * 4 + 1);
             }}
             aria-pressed={idx * 4 + 1 === date}
-            className={"dateListButton"}
+            className="w-14 h-14 flex items-center justify-center rounded-full hover:bg-neutral-100 aria-pressed:bg-blue-200 aria-pressed:font-medium"
           >
             {idx * 4 + 1}
           </li>
@@ -40,7 +43,7 @@ export const MonthCalendar = ({
               handleDate(idx * 4 + 2);
             }}
             aria-pressed={idx * 4 + 2 === date}
-            className={"dateListButton"}
+            className="w-14 h-14 flex items-center justify-center rounded-full hover:bg-neutral-100 aria-pressed:bg-blue-200 aria-pressed:font-medium"
           >
             {idx * 4 + 2}
           </li>
@@ -51,7 +54,7 @@ export const MonthCalendar = ({
               handleDate(idx * 4 + 3);
             }}
             aria-pressed={idx * 4 + 3 === date}
-            className={"dateListButton"}
+            className="w-14 h-14 flex items-center justify-center rounded-full hover:bg-neutral-100 aria-pressed:bg-blue-200 aria-pressed:font-medium"
           >
             {idx * 4 + 3}
           </li>
@@ -62,7 +65,7 @@ export const MonthCalendar = ({
               handleDate(idx * 4 + 4);
             }}
             aria-pressed={idx * 4 + 4 === date}
-            className={"dateListButton"}
+            className="w-14 h-14 flex items-center justify-center rounded-full hover:bg-neutral-100 aria-pressed:bg-blue-200 aria-pressed:font-medium"
           >
             {idx * 4 + 4}
           </li>

@@ -2,7 +2,6 @@ import { useRef } from "react";
 import { MonthCalendar } from "./month-calendar";
 import { YearCalendar } from "./year-calendar";
 import { YearMonthCalendarProps } from "../types/react-year-gogo-types";
-import "../styles/calendar.css";
 
 export const YearMonthCalendar = ({
   open,
@@ -20,6 +19,7 @@ export const YearMonthCalendar = ({
 
   const handleYearExtend = (e: number) => {
     handleYear(e);
+    if (e == date?.year) return;
     setTimeout(() => (ref.current!.style.marginLeft = "-20rem"), 300);
   };
 
@@ -30,49 +30,43 @@ export const YearMonthCalendar = ({
       <div
         ref={calendarRef}
         id={id}
-        className={`calendarContainer2 ${className}`}
+        className={`absolute w-80 h-72 border rounded bg-white shadow box-content overflow-hidden ${className}`}
         style={{
           backgroundColor: backgroundColor,
           top: axis?.y,
           left: axis?.x,
         }}
       >
-        <div>
-          <div className="calendarHeader">
-            <button
-              onClick={() => (ref.current!.style.marginLeft = "0")}
-              style={{
-                cursor: "pointer",
-                backgroundColor: "transparent",
-                border: "none",
-              }}
-            >
-              <ChevornLeft />
-            </button>
-            <span>
-              {date && date.year ? date.year : title}
-              {date && date.year && date.month && " · " + date.month}
-            </span>
-          </div>
-          <div
-            ref={ref}
-            style={{ position: "relative", transitionDuration: "500ms" }}
+        <div className="w-full h-12 border-b flex items-center justify-between px-5">
+          <button
+            onClick={() => (ref.current!.style.marginLeft = "0")}
+            className="cursor-pointer hover:bg-neutral-100 duration-150 rounded"
           >
-            <YearCalendar
-              date={date?.year && date.year}
-              handleDate={handleYearExtend}
-              axis={{ y: 0, x: 0 }}
-              backgroundColor={backgroundColor}
-              open
-            />
-            <MonthCalendar
-              date={date?.month && date.month}
-              handleDate={handleMonth}
-              axis={{ y: 0, x: 320 }}
-              backgroundColor={backgroundColor}
-              open
-            />
-          </div>
+            <ChevornLeft />
+          </button>
+          <span>
+            {date && date.year ? date.year : title}
+            {date && date.year && date.month && " · " + date.month}
+          </span>
+        </div>
+
+        <div ref={ref} className="relative duration-500">
+          <YearCalendar
+            date={date?.year && date.year}
+            className="border-none shadow-none rounded-none"
+            handleDate={handleYearExtend}
+            axis={{ y: 0, x: 0 }}
+            backgroundColor={backgroundColor}
+            open
+          />
+          <MonthCalendar
+            date={date?.month && date.month}
+            className="border-none shadow-none rounded-none"
+            handleDate={handleMonth}
+            axis={{ y: 0, x: 320 }}
+            backgroundColor={backgroundColor}
+            open
+          />
         </div>
       </div>
     );

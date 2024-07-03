@@ -1,4 +1,4 @@
-type dateType = {
+type DatePickerType = {
   year: number | undefined;
   month: number | undefined;
 };
@@ -21,10 +21,10 @@ interface CalendarPortalProps extends BasicCalendarProps {
 }
 
 interface YearMonthCalendarPortalProps extends BasicCalendarProps {
-  date?: dateType;
+  date?: DatePickerType;
   handleYear: (e: number) => void;
   handleMonth: (e: number) => void;
-  setDate?: React.Dispatch<React.SetStateAction<dateType>>;
+  setDate?: React.Dispatch<React.SetStateAction<DatePickerType>>;
   title?: string;
 }
 
@@ -37,7 +37,7 @@ interface CalendarProps extends CalendarPortalProps {
 }
 
 export type {
-  dateType,
+  DatePickerType,
   CalendarPortalProps,
   YearMonthCalendarPortalProps,
   YearMonthCalendarProps,

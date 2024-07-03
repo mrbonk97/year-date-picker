@@ -2,8 +2,8 @@ import React, { useEffect, useRef } from "react";
 import { DatePickerButton } from "../button/date-picker";
 import { MonthCalendarPortal } from "../calendar/month-calendar-portal";
 import { YearCalendarPortal } from "../calendar/year-calendar-portal";
-import { dateType } from "../types/react-year-gogo-types";
 import { YearMonthCalendarPortal } from "../calendar/year-month-calendar-portal";
+import { DatePickerType } from "../types/react-year-gogo-types";
 
 interface PickerPickerProps {
   title?: string;
@@ -15,10 +15,10 @@ interface PickerPickerProps {
   calendarClassName?: string;
   backgroundColor?: string;
   focusedColor?: string;
-  date?: dateType;
+  date?: DatePickerType;
   year?: number;
   month?: number;
-  setDate?: React.Dispatch<React.SetStateAction<dateType>>;
+  setDate?: React.Dispatch<React.SetStateAction<DatePickerType>>;
   setYear?: React.Dispatch<React.SetStateAction<number | undefined>>;
   setMonth?: React.Dispatch<React.SetStateAction<number | undefined>>;
 }

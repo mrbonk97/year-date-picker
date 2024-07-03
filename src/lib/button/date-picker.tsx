@@ -1,5 +1,5 @@
-import { forwardRef } from "react";
-import "../styles/calendar.css";
+import React from "react";
+import { twMerge } from "tailwind-merge";
 
 interface DatePickerButtonProps {
   title?: string;
@@ -8,7 +8,7 @@ interface DatePickerButtonProps {
   className?: string;
 }
 
-export const DatePickerButton = forwardRef<
+export const DatePickerButton = React.forwardRef<
   HTMLButtonElement,
   DatePickerButtonProps
 >(({ title = "Pick a date", onClick, id, className }, ref) => {
@@ -17,7 +17,10 @@ export const DatePickerButton = forwardRef<
       ref={ref}
       id={id}
       type="button"
-      className={`datePickerButton ${className}`}
+      className={twMerge(
+        "p-2 min-w-40 flex items-center gap-2 duration-150 rounded border bg-white hover:bg-slate-100",
+        className
+      )}
       onClick={onClick}
     >
       <CalendarIcon />
