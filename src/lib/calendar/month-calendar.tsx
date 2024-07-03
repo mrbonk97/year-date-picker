@@ -1,4 +1,5 @@
 import { CalendarProps } from "../types/react-year-gogo-types";
+import "../styles/calendar.css";
 
 export const MonthCalendar = ({
   axis,
@@ -7,21 +8,20 @@ export const MonthCalendar = ({
   handleDate,
   id,
   className,
-  backgroundColor = "#fff",
-  focusColor = "#fecdd3",
-  ref,
+  backgroundColor,
+  calendarRef,
 }: CalendarProps) => {
-  if (!open) return;
+  if (!open) return null;
 
   return (
     <div
       id={id}
-      ref={ref}
-      className={`absolute p-2 w-80 h-60 rounded border flex flex-col justify-between ${className}`}
+      ref={calendarRef}
+      className={`calendarContainer ${className}`}
       style={{ backgroundColor: backgroundColor, top: axis?.y, left: axis?.x }}
     >
       {new Array(3).fill(1).map((_, idx) => (
-        <ul key={idx} className="flex justify-between">
+        <ul key={idx} className="dateList">
           <li
             role="button"
             onClick={() => {
@@ -29,7 +29,7 @@ export const MonthCalendar = ({
               handleDate(idx * 4 + 1);
             }}
             aria-pressed={idx * 4 + 1 === date}
-            className={`h-16 w-16 rounded-full flex items-center justify-center hover:bg-neutral-100 aria-pressed:bg-rose-200 aria-pressed:font-medium duration-150`}
+            className={"dateListButton"}
           >
             {idx * 4 + 1}
           </li>
@@ -40,7 +40,7 @@ export const MonthCalendar = ({
               handleDate(idx * 4 + 2);
             }}
             aria-pressed={idx * 4 + 2 === date}
-            className={`h-16 w-16 rounded-full flex items-center justify-center hover:bg-neutral-100 aria-pressed:bg-rose-200 aria-pressed:font-medium duration-150`}
+            className={"dateListButton"}
           >
             {idx * 4 + 2}
           </li>
@@ -51,7 +51,7 @@ export const MonthCalendar = ({
               handleDate(idx * 4 + 3);
             }}
             aria-pressed={idx * 4 + 3 === date}
-            className={`h-16 w-16 rounded-full flex items-center justify-center hover:bg-neutral-100 aria-pressed:bg-rose-200 aria-pressed:font-medium duration-150`}
+            className={"dateListButton"}
           >
             {idx * 4 + 3}
           </li>
@@ -62,7 +62,7 @@ export const MonthCalendar = ({
               handleDate(idx * 4 + 4);
             }}
             aria-pressed={idx * 4 + 4 === date}
-            className={`h-16 w-16 rounded-full flex items-center justify-center hover:bg-neutral-100 aria-pressed:bg-rose-200 aria-pressed:font-medium duration-150`}
+            className={"dateListButton"}
           >
             {idx * 4 + 4}
           </li>

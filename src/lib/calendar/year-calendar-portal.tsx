@@ -1,9 +1,12 @@
 import { forwardRef } from "react";
 import { createPortal } from "react-dom";
 import { YearCalendar } from "./year-calendar";
-import { CalendarProps } from "../types/react-year-gogo-types";
+import { CalendarPortalProps } from "../types/react-year-gogo-types";
 
-export const YearCalendarPortal = forwardRef<HTMLDivElement, CalendarProps>(
+export const YearCalendarPortal = forwardRef<
+  HTMLDivElement,
+  CalendarPortalProps
+>(
   (
     {
       axis,
@@ -12,8 +15,8 @@ export const YearCalendarPortal = forwardRef<HTMLDivElement, CalendarProps>(
       handleDate,
       id,
       className,
-      backgroundColor = "#fff",
-      focusColor = "#fecdd3",
+      backgroundColor,
+      focusColor,
     },
     ref
   ) => {
@@ -27,7 +30,7 @@ export const YearCalendarPortal = forwardRef<HTMLDivElement, CalendarProps>(
         className={className}
         backgroundColor={backgroundColor}
         focusColor={focusColor}
-        ref={ref}
+        calendarRef={ref}
       />,
       document.getElementById("root")!
     );

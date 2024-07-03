@@ -1,13 +1,20 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { DatePickerButton } from "../button/date-picker";
 import { MonthCalendarPortal } from "../calendar/month-calendar-portal";
 import { YearCalendarPortal } from "../calendar/year-calendar-portal";
-import { YearMonthCalendar } from "../calendar/year-month-calendar";
 import { dateType } from "../types/react-year-gogo-types";
+import { YearMonthCalendarPortal } from "../calendar/year-month-calendar-portal";
 
 interface PickerPickerProps {
   title?: string;
   type: "YEAR" | "MONTH" | "YEAR_MONTH";
+  locale?: string;
+  buttonId?: string;
+  buttonClassName?: string;
+  calendarId?: string;
+  calendarClassName?: string;
+  backgroundColor?: string;
+  focusedColor?: string;
   date?: dateType;
   year?: number;
   month?: number;
@@ -19,6 +26,13 @@ interface PickerPickerProps {
 const PickerPicker = ({
   title,
   type,
+  locale = "en-US",
+  buttonId,
+  buttonClassName,
+  calendarId,
+  calendarClassName,
+  backgroundColor = "#fff",
+  focusedColor,
   date,
   year,
   month,
@@ -27,6 +41,7 @@ const PickerPicker = ({
   setMonth,
 }: PickerPickerProps) => {
   const buttonRef = useRef<HTMLButtonElement>(null);
+  const calendarRef = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = React.useState(false);
   const [axis, setAxis] = React.useState({ y: 0, x: 0 });
 
@@ -70,22 +85,39 @@ const PickerPicker = ({
 
   let _title = year?.toString();
   if (month) {
-    _title = new Date(2000, month - 1).toLocaleString("en-US", {
+    _title = new Date(2000, month - 1).toLocaleString(locale, {
       month: "long",
     });
   }
   if (date?.month) {
-    _title = new Date(2000, date.month - 1).toLocaleString("en-US", {
+    _title = new Date(2000, date.month - 1).toLocaleString(locale, {
       month: "long",
     });
     _title += ", ";
     _title += date?.year?.toString();
   }
 
+  useEffect(() => {
+    function handleClickOutside(event: any) {
+      if (!calendarRef.current) return;
+      if (!buttonRef.current) return;
+      if (calendarRef.current.contains(event.target)) return;
+      if (buttonRef.current.contains(event.target)) return;
+      setIsOpen(false);
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [calendarRef, buttonRef]);
+
   return (
     <>
       <DatePickerButton
         title={_title || title}
+        id={buttonId}
+        className={buttonClassName}
         ref={buttonRef}
         onClick={handleOpen}
       />
@@ -93,25 +125,40 @@ const PickerPicker = ({
         <YearCalendarPortal
           axis={axis}
           open={isOpen}
+          id={calendarId}
+          className={calendarClassName}
+          backgroundColor={backgroundColor}
+          focusColor={focusedColor}
           date={year}
           handleDate={handleYear1}
+          ref={calendarRef}
         />
       )}
       {type === "MONTH" && (
         <MonthCalendarPortal
           axis={axis}
           open={isOpen}
+          id={calendarId}
+          className={calendarClassName}
+          backgroundColor={backgroundColor}
+          focusColor={focusedColor}
           date={month}
           handleDate={handleMonth1}
+          ref={calendarRef}
         />
       )}
       {type === "YEAR_MONTH" && (
-        <YearMonthCalendar
+        <YearMonthCalendarPortal
           axis={axis}
           open={isOpen}
+          id={calendarId}
+          className={calendarClassName}
+          backgroundColor={backgroundColor}
+          focusColor={focusedColor}
           date={typeof date === "object" ? date : undefined}
           handleYear={handleYear2}
           handleMonth={handleMonth2}
+          ref={calendarRef}
         />
       )}
     </>

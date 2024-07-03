@@ -1,16 +1,16 @@
 import { useEffect, useRef } from "react";
 import { CalendarProps } from "../types/react-year-gogo-types";
+import "../styles/calendar.css";
 
 export const YearCalendar = ({
+  calendarRef,
   axis,
   open,
   date,
   handleDate,
   id,
   className,
-  backgroundColor = "#fff",
-  focusColor = "#fecdd3",
-  ref,
+  backgroundColor,
 }: CalendarProps) => {
   const curYear = new Date().getFullYear() - 100;
   const cellRef = useRef<HTMLLIElement[]>([]);
@@ -23,18 +23,23 @@ export const YearCalendar = ({
     else cellRef.current[96].scrollIntoView();
   }, [open]);
 
-  if (!open) return;
+  if (!open) return null;
 
   return (
     <div
       id={id}
-      ref={ref}
-      className={`absolute p-2 w-80 h-60 rounded border flex flex-col justify-between overflow-y-scroll ${className}`}
-      style={{ backgroundColor: backgroundColor, top: axis?.y, left: axis?.x }}
+      ref={calendarRef}
+      className={`calendarContainer ${className}`}
+      style={{
+        backgroundColor: backgroundColor,
+        top: axis?.y,
+        left: axis?.x,
+        overflowY: "scroll",
+      }}
     >
       {new Array(50).fill(1).map((_, idx1) => {
         return (
-          <ul key={`ul${idx1}`} className="flex justify-between">
+          <ul key={`ul${idx1}`} className="dateList">
             {new Array(4).fill(1).map((_, idx2) => {
               const _year = curYear + idx1 * 4 + idx2;
               return (
@@ -43,7 +48,7 @@ export const YearCalendar = ({
                   ref={(el) => (cellRef.current[idx1 * 4 + idx2] = el!)}
                   key={`li${idx1 * 4 + idx2}`}
                   aria-pressed={date === _year}
-                  className={`h-16 w-16 flex2 rounded-full hover:bg-neutral-100 duration-150 aria-pressed:bg-rose-200 aria-pressed:font-medium`}
+                  className="dateListButton"
                   onClick={() => {
                     if (!handleDate) return;
                     handleDate(_year);

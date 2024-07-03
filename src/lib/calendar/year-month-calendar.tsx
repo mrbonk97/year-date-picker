@@ -2,6 +2,7 @@ import { useRef } from "react";
 import { MonthCalendar } from "./month-calendar";
 import { YearCalendar } from "./year-calendar";
 import { YearMonthCalendarProps } from "../types/react-year-gogo-types";
+import "../styles/calendar.css";
 
 export const YearMonthCalendar = ({
   open,
@@ -12,31 +13,40 @@ export const YearMonthCalendar = ({
   title = "Pick a Date",
   id,
   className,
-  backgroundColor = "#fff",
-  focusColor,
+  backgroundColor,
+  calendarRef,
 }: YearMonthCalendarProps) => {
   const ref = useRef<HTMLDivElement>(null);
-
-  const handlePage = () => {
-    ref.current!.style.marginLeft = "0";
-  };
 
   const handleYearExtend = (e: number) => {
     handleYear(e);
     setTimeout(() => (ref.current!.style.marginLeft = "-20rem"), 300);
   };
 
-  if (!open) return;
+  if (!open) return null;
 
   if (open)
     return (
-      <div id={id} className="absolute" style={{ top: axis.y, left: axis.x }}>
-        <div
-          className={`w-80 h-72 overflow-hidden border rounded ${className}`}
-          style={{ backgroundColor: backgroundColor }}
-        >
-          <div className="w-full h-12 flex items-center justify-between px-5 border-b">
-            <button onClick={handlePage}>
+      <div
+        ref={calendarRef}
+        id={id}
+        className={`calendarContainer2 ${className}`}
+        style={{
+          backgroundColor: backgroundColor,
+          top: axis?.y,
+          left: axis?.x,
+        }}
+      >
+        <div>
+          <div className="calendarHeader">
+            <button
+              onClick={() => (ref.current!.style.marginLeft = "0")}
+              style={{
+                cursor: "pointer",
+                backgroundColor: "transparent",
+                border: "none",
+              }}
+            >
               <ChevornLeft />
             </button>
             <span>
@@ -44,20 +54,21 @@ export const YearMonthCalendar = ({
               {date && date.year && date.month && " · " + date.month}
             </span>
           </div>
-          <div ref={ref} className="relative duration-500">
+          <div
+            ref={ref}
+            style={{ position: "relative", transitionDuration: "500ms" }}
+          >
             <YearCalendar
               date={date?.year && date.year}
               handleDate={handleYearExtend}
               axis={{ y: 0, x: 0 }}
-              className="border-none rounded-none"
               backgroundColor={backgroundColor}
               open
             />
             <MonthCalendar
-              axis={{ y: 0, x: 320 }}
               date={date?.month && date.month}
               handleDate={handleMonth}
-              className="border-none rounded-none"
+              axis={{ y: 0, x: 320 }}
               backgroundColor={backgroundColor}
               open
             />
