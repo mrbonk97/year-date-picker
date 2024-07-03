@@ -1,5 +1,23 @@
 {
+  "name": "react-year-date-picker",
+  "version": "0.0.1",
+  "license": "MIT",
+  "main": "dist/main.js",
+  "source": "src/index.html",
+  "module": "dist/module.js",
+  "types": "dist/types.d.ts",
+  "browserslist": "> 0.5%, last 2 versions, not dead",
+  "scripts": {
+    "watch": "parcel watch",
+    "start": "parcel",
+    "build": "parcel build"
+  },
   "devDependencies": {
-    "parcel": "^2.12.0"
+    "parcel": "^2.12.0",
+    "process": "^0.11.10"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
   }
 }
