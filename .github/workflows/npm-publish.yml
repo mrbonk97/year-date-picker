@@ -12,7 +12,6 @@ jobs:
     runs-on: ubuntu-latest
     environment: npm_publish
     steps:
-      - run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}"
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v3
         with:
@@ -22,6 +21,7 @@ jobs:
   publish-npm:
     needs: build
     runs-on: ubuntu-latest
+    environment: npm_publish
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v3
