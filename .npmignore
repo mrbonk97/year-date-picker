@@ -1,8 +1,8 @@
 .parcel-cache
 node_modules
-dist
-dist-ssr
-*.local
+src
+tsconfig.json
+
 
 # Editor directories and files
 .vscode/*

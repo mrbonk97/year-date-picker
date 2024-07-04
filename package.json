@@ -1,8 +1,9 @@
 {
-  "name": "react-year-date-picker",
+  "name": "creact-year-date-picker",
   "description": "React year month picker",
   "version": "0.1.0",
   "license": "MIT",
+  "private": false,
   "main": "dist/main.js",
   "source": "src/lib/index.ts",
   "module": "dist/module.js",
@@ -31,6 +32,10 @@
     "email": "hyunsuk1997@naver.com",
     "url": "https://github.com/mrbonk97"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mrbonk97/react-year-date-picker.git"
+  },
   "keywords": [
     "react",
     "calendar",
@@ -38,5 +43,8 @@
     "date",
     "year",
     "month"
+  ],
+  "files": [
+    "dist"
   ]
 }
