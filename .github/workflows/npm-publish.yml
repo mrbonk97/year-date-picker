@@ -8,11 +8,20 @@ on:
     types: [created]
 
 jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}"
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+      - run: yarn install
+
   publish-npm:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}"
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v3
         with:
