@@ -1,7 +1,7 @@
 {
   "name": "react-year-date-picker",
   "description": "React year month picker",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "license": "MIT",
   "main": "dist/main.js",
   "source": "src/lib/index.ts",
