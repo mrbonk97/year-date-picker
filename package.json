@@ -12,7 +12,7 @@
   "scripts": {
     "watch": "parcel watch",
     "start": "parcel",
-    "build": "parcel build ./src/lib/index.ts"
+    "build": "parcel build"
   },
   "devDependencies": {
     "@parcel/packager-ts": "2.12.0",
