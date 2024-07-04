@@ -1,5 +1,5 @@
 {
-  "name": "creact-year-date-picker",
+  "name": "react-year-date-picker",
   "description": "React year month picker",
   "version": "0.1.0",
   "license": "MIT",
@@ -43,8 +43,5 @@
     "date",
     "year",
     "month"
-  ],
-  "files": [
-    "dist"
   ]
 }
