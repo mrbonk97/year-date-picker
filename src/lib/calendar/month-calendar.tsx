@@ -1,16 +1,20 @@
-import React from "react";
-import { CalendarProps } from "../date-picker-types";
+import { BasicCalendarProps } from "../date-picker-types";
+
+interface Props extends BasicCalendarProps {
+  month?: number;
+  handleMonth?: (e: number) => void;
+  calendarRef?: React.LegacyRef<HTMLDivElement>;
+}
 
 export const MonthCalendar = ({
   axis,
   open,
-  date,
-  handleDate,
+  month,
+  handleMonth,
   id,
   className,
-  backgroundColor,
   calendarRef,
-}: CalendarProps) => {
+}: Props) => {
   if (!open) return null;
 
   return (
@@ -27,10 +31,10 @@ export const MonthCalendar = ({
               role="button"
               key={`row${row}col${col}`}
               onClick={() => {
-                if (!handleDate) return;
-                handleDate(row * 4 + col + 1);
+                if (!handleMonth) return;
+                handleMonth(row * 4 + col + 1);
               }}
-              aria-pressed={row * 4 + col + 1 === date}
+              aria-pressed={row * 4 + col + 1 === month}
               className="calendar-button"
             >
               {row * 4 + col + 1}

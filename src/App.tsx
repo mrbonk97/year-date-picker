@@ -10,13 +10,13 @@ export function App() {
   });
   return (
     <main>
-      {/* <DatePicker type="MONTH" month={month} setMonth={setMonth} /> */}
+      <DatePicker type="MONTH" month={month} setMonth={setMonth} />
 
-      <div style={{ padding: "100px 0" }} />
+      <div style={{ padding: "50px 0" }} />
 
-      {/* <DatePicker type="YEAR" year={year} setYear={setYear} /> */}
+      <DatePicker type="YEAR" year={year} setYear={setYear} />
 
-      <div style={{ margin: "20px 0" }} />
+      <div style={{ padding: "50px 0" }} />
 
       <DatePicker type="YEAR_MONTH" date={date} setDate={setDate} />
     </main>

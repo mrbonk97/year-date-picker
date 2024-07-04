@@ -1,15 +1,21 @@
 import React from "react";
-import { CalendarProps } from "../date-picker-types";
+import { BasicCalendarProps } from "../date-picker-types";
+
+interface Props extends BasicCalendarProps {
+  year?: number;
+  handleYear?: (e: number) => void;
+  calendarRef?: React.LegacyRef<HTMLDivElement>;
+}
 
 export const YearCalendar = ({
-  calendarRef,
   axis,
   open,
-  date,
-  handleDate,
+  year,
+  handleYear,
   id,
   className,
-}: CalendarProps) => {
+  calendarRef,
+}: Props) => {
   const curYear = new Date().getFullYear() - 100;
   const cellRef = React.useRef<HTMLLIElement[]>([]);
 
@@ -17,8 +23,8 @@ export const YearCalendar = ({
     if (!open) return;
     if (!cellRef.current) return;
 
-    // if (date) cellRef.current[date - curYear - 4].scrollIntoView({});
-    // else cellRef.current[96].scrollIntoView();
+    if (year) cellRef.current[year - curYear - 4].scrollIntoView({});
+    else cellRef.current[96].scrollIntoView();
   }, [open]);
 
   if (!open) return null;
@@ -44,11 +50,11 @@ export const YearCalendar = ({
                   role="button"
                   ref={(el) => (cellRef.current[idx1 * 4 + idx2] = el!)}
                   key={`li${idx1 * 4 + idx2}`}
-                  aria-pressed={date === _year}
+                  aria-pressed={year === _year}
                   className="calendar-button"
                   onClick={() => {
-                    if (!handleDate) return;
-                    handleDate(_year);
+                    if (!handleYear) return;
+                    handleYear(_year);
                   }}
                 >
                   {curYear + idx1 * 4 + idx2}

@@ -1,36 +1,23 @@
 import React from "react";
-import { forwardRef } from "react";
-import { createPortal } from "react-dom";
-import { CalendarPortalProps } from "../date-picker-types";
+import { BasicCalendarProps } from "../date-picker-types";
 import { MonthCalendar } from "./month-calendar";
+import { createPortal } from "react-dom";
 
-export const MonthCalendarPortal = forwardRef<
-  HTMLDivElement,
-  CalendarPortalProps
->(
-  (
-    {
-      axis,
-      open,
-      date,
-      handleDate,
-      id,
-      className,
-      backgroundColor,
-      focusColor,
-    },
-    ref
-  ) => {
+interface Props extends BasicCalendarProps {
+  month?: number;
+  handleMonth?: (e: number) => void;
+}
+
+export const MonthCalendarPortal = React.forwardRef<HTMLDivElement, Props>(
+  ({ axis, open, month, handleMonth, id, className }, ref) => {
     return createPortal(
       <MonthCalendar
         axis={axis}
         open={open}
-        date={date}
-        handleDate={handleDate}
+        month={month}
+        handleMonth={handleMonth}
         id={id}
         className={className}
-        backgroundColor={backgroundColor}
-        focusColor={focusColor}
         calendarRef={ref}
       />,
       document.getElementById("root") || document.getElementById("app")!

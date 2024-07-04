@@ -1,6 +1,6 @@
 import React from "react";
 import { DatePickerType } from "./date-picker-types";
-import PickerButton from "./picker-button";
+import { PickerButton } from "./picker-button";
 import { MonthCalendarPortal } from "./calendar/month-calendar-portal";
 import { YearCalendarPortal } from "./calendar/year-calendar-portal";
 import { YearMonthCalendarPortal } from "./calendar/year-month-calendar-portal";
@@ -13,8 +13,6 @@ interface PickerPickerProps {
   buttonClassName?: string;
   calendarId?: string;
   calendarClassName?: string;
-  backgroundColor?: string;
-  focusedColor?: string;
   date?: DatePickerType;
   year?: number;
   month?: number;
@@ -126,8 +124,8 @@ export const DatePicker = ({
           open={isOpen}
           id={calendarId}
           className={calendarClassName}
-          date={year}
-          handleDate={handleYear1}
+          year={year}
+          handleYear={handleYear1}
           ref={calendarRef}
         />
       )}
@@ -138,8 +136,8 @@ export const DatePicker = ({
           open={isOpen}
           id={calendarId}
           className={calendarClassName}
-          date={month}
-          handleDate={handleMonth1}
+          month={month}
+          handleMonth={handleMonth1}
           ref={calendarRef}
         />
       )}

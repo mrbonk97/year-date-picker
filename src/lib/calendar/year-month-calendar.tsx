@@ -1,7 +1,15 @@
 import React from "react";
 import { MonthCalendar } from "./month-calendar";
 import { YearCalendar } from "./year-calendar";
-import { YearMonthCalendarProps } from "../date-picker-types";
+import { BasicCalendarProps, DatePickerType } from "../date-picker-types";
+
+interface Props extends BasicCalendarProps {
+  title?: string;
+  date?: DatePickerType;
+  handleYear: (e: number) => void;
+  handleMonth: (e: number) => void;
+  calendarRef?: React.LegacyRef<HTMLDivElement>;
+}
 
 export const YearMonthCalendar = ({
   open,
@@ -12,9 +20,8 @@ export const YearMonthCalendar = ({
   title = "Pick a Date",
   id,
   className,
-  backgroundColor,
   calendarRef,
-}: YearMonthCalendarProps) => {
+}: Props) => {
   const ref = React.useRef<HTMLDivElement>(null);
 
   const handleYearExtend = (e: number) => {
@@ -29,7 +36,7 @@ export const YearMonthCalendar = ({
     <div
       ref={calendarRef}
       id={id}
-      className={"calendar2 round-shadow"}
+      className={className || "calendar2 round-shadow"}
       style={{
         top: axis?.y,
         left: axis?.x,
@@ -50,19 +57,17 @@ export const YearMonthCalendar = ({
 
       <div ref={ref} className="calendarWrapper">
         <YearCalendar
-          date={date?.year && date.year}
-          handleDate={handleYearExtend}
+          year={date?.year && date.year}
+          handleYear={handleYearExtend}
           className="calendar"
           axis={{ y: 0, x: 0 }}
-          backgroundColor={backgroundColor}
           open
         />
         <MonthCalendar
-          date={date?.month && date.month}
-          handleDate={handleMonth}
+          month={date?.month && date.month}
+          handleMonth={handleMonth}
           className="calendar"
           axis={{ y: 0, x: 320 }}
-          backgroundColor={backgroundColor}
           open
         />
       </div>
