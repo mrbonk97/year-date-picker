@@ -93,16 +93,44 @@ export const DatePicker = ({
     _title += date?.year?.toString();
   }
 
+  // This code dynamically adjusts the position of a calendar based on the position of a button.
   React.useEffect(() => {
-    function handleClickOutside(event: any) {
+    const handleResize = () => {
+      if (buttonRef.current) {
+        const clientRect = buttonRef.current.getBoundingClientRect();
+        setAxis({
+          y: clientRect.top + clientRect.height + 5,
+          x: clientRect.left,
+        });
+      }
+    };
+
+    const resizeObserver = new ResizeObserver(handleResize);
+    if (buttonRef.current) {
+      resizeObserver.observe(
+        document.getElementById("root") || document.getElementById("app")!
+      );
+    }
+
+    return () => {
+      if (buttonRef.current) {
+        resizeObserver.unobserve(buttonRef.current);
+      }
+    };
+  }, [buttonRef]);
+
+  // This code is for closing popup on click outside
+  React.useEffect(() => {
+    const handleClickOutside = (event: any) => {
       if (!calendarRef.current) return;
       if (!buttonRef.current) return;
       if (calendarRef.current.contains(event.target)) return;
       if (buttonRef.current.contains(event.target)) return;
       setIsOpen(false);
-    }
+    };
 
     document.addEventListener("mousedown", handleClickOutside);
+
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
