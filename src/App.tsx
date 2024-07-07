@@ -10,6 +10,7 @@ export function App() {
   });
   return (
     <main>
+      <h1 style={{ textAlign: "center" }}>Year date Picker</h1>
       <DatePicker type="MONTH" month={month} setMonth={setMonth} />
 
       <div style={{ padding: "50px 0" }} />
