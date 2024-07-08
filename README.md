@@ -2,7 +2,7 @@
 
 This library provides a datepicker for selecting a year, month, or both!
 
-Check out the Example Website [https://github.asdasd](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md)
+Check out the Example Website [https://mrbonk97.github.io/react-year-date-picker/](https://mrbonk97.github.io/react-year-date-picker/)
 
 ## Example
 
