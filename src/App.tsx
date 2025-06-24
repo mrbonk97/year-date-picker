@@ -1,25 +1,35 @@
-import React from "react";
-import { DatePicker } from "./lib/date-picker";
-import { DatePickerType } from "./lib/date-picker-types";
-export function App() {
-  const [month, setMonth] = React.useState<number>();
-  const [year, setYear] = React.useState<number>();
-  const [date, setDate] = React.useState<DatePickerType>({
-    year: undefined,
-    month: undefined,
-  });
+import { useState } from 'react'
+import reactLogo from './assets/react.svg'
+import viteLogo from '/vite.svg'
+import './App.css'
+
+function App() {
+  const [count, setCount] = useState(0)
+
   return (
-    <main>
-      <h1 style={{ textAlign: "center" }}>Year date Picker</h1>
-      <DatePicker type="MONTH" month={month} setMonth={setMonth} />
-
-      <div style={{ padding: "50px 0" }} />
-
-      <DatePicker type="YEAR" year={year} setYear={setYear} />
-
-      <div style={{ padding: "50px 0" }} />
-
-      <DatePicker type="YEAR_MONTH" date={date} setDate={setDate} />
-    </main>
-  );
+    <>
+      <div>
+        <a href="https://vite.dev" target="_blank">
+          <img src={viteLogo} className="logo" alt="Vite logo" />
+        </a>
+        <a href="https://react.dev" target="_blank">
+          <img src={reactLogo} className="logo react" alt="React logo" />
+        </a>
+      </div>
+      <h1>Vite + React</h1>
+      <div className="card">
+        <button onClick={() => setCount((count) => count + 1)}>
+          count is {count}
+        </button>
+        <p>
+          Edit <code>src/App.tsx</code> and save to test HMR
+        </p>
+      </div>
+      <p className="read-the-docs">
+        Click on the Vite and React logos to learn more
+      </p>
+    </>
+  )
 }
+
+export default App
