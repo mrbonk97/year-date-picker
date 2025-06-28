@@ -1,4 +1,4 @@
-import "./year-month-picker.css";
+import "./style.css";
 
 import { YearMonthPicker } from "./year-month-picker";
 import type { YearMonthType } from "./year-month-picker";
