@@ -6,7 +6,7 @@ A lightweight React library for picking a year, month, or both with ease!
   <img src="https://github.com/user-attachments/assets/ba0dac7b-fc19-4ea1-b29d-e6171277f4f3" alt="calendar" />
 </p>
 <p align="center">
-  🔗 <strong><a href="https://mrbonk97.github.io/year-date-picker">Check out the live demo</a></strong>
+  🔗 <strong><a href="https://mrbonk97.github.io/year-month-picker">Check out the live demo</a></strong>
 </p>
 
 ---
