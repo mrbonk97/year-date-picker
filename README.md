@@ -1,116 +1,58 @@
-# React Year/Month Date Picker UI Library
+# Year Month Picker Library
 
-This library provides a datepicker for selecting a year, month, or both!
+A lightweight React library for picking a year, month, or both with ease!
 
-Check out the Example Website [https://mrbonk97.github.io/react-year-date-picker/](https://mrbonk97.github.io/react-year-date-picker/)
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/ba0dac7b-fc19-4ea1-b29d-e6171277f4f3" alt="calendar" />
+</p>
+<p align="center">
+  🔗 <strong><a href="https://mrbonk97.github.io/year-month-picker">Check out the live demo</a></strong>
+</p>
 
-## Example
-
-**Month Calendar**
-
-https://github.com/mrbonk97/react-year-picker-gogo/assets/60309133/633804dd-28fe-4abd-bfed-cbb56a6de788
-
-**Year Month Calendar**
-
-https://github.com/mrbonk97/react-year-picker-gogo/assets/60309133/cb108f33-9acb-40a3-a3ed-133ec78aa1dc
+---
 
 ## Installation
 
-Install the library from your command line.
+Install via npm:
 
 ```shell
-npm install react-year-date-picker
+npm install year-month-picker
 ```
 
 ## Usage
 
-- year picker
-
 ```js
-import { useState } from "react";
-import { DatePicker } from "react-year-date-picker";
+import "year-month-picker/style.css";
 
-function App() {
-  const [year, setYear] = useState<number>();
+import { useState } from "react";
+import { YearMonthPicker, YearMonthType } from "year-month-picker";
+
+export default function Example() {
+  const [date, setDate] = useState<YearMonthType>({ year: null, month: null });
 
   return (
-    <DatePicker type="YEAR" year={year} setYear={setYear} />
+    <main>
+      <YearMonthPicker date={date} setDate={setDate} mode="year" />
+      <YearMonthPicker date={date} setDate={setDate} mode="month" />
+      <YearMonthPicker date={date} setDate={setDate} mode="year-month" />
+    </main>
   );
 }
-
-export default App;
-```
-
-- month picker
-
-```js
-import { useState } from "react";
-import { DatePicker } from "react-year-date-picker";
-
-function App() {
-  const [month, setMonth] = useState<number>();
-
-  return (
-    <DatePicker
-      type="YEAR_MONTH"
-      locale="ko-KR"
-      month={month}
-      setMonth={setMonth}
-    />
-  );
-}
-
-export default App;
-```
-
-- year-month picker
-
-```js
-import { useState } from "react";
-import { DatePicker, DatePickerType } from "react-year-date-picker";
-
-function App() {
-  const [date, setDate] =
-    useState <
-    DatePickerType >
-    {
-      year: undefined,
-      month: undefined,
-    };
-
-  return <DatePicker type="YEAR_MONTH" date={date} setDate={setDate} />;
-}
-
-export default App;
 ```
 
 ## API Reference
 
-| Props             | Type                        | default     |
-| ----------------- | --------------------------- | ----------- |
-| title             | string                      | Pick a date |
-| type              | YEAR or MONTH or YEAR_MONTH | -           |
-| locale            | string                      | en-US       |
-| buttonId          | string                      | -           |
-| buttonClassName   | string                      | -           |
-| calendarId        | string                      | -           |
-| calendarClassName | string                      | -           |
-| backgroundColor   | string                      | -           |
-| focusedColor      | string                      | -           |
-| date              | DatePickerType              | -           |
-| year              | number or undefined         | -           |
-| month             | number or undefined         | -           |
-| setDate           | React.useState              | -           |
-| setYear           | React.useState              | -           |
-| setMonth          | React.useState              | -           |
-
-### locale
-
-```js
-new Date(2000, month - 1).toLocaleString(locale, { month: "long" });
-```
-
-Above is the code used in date picker
-
-to set the correct locale,
-refer to the toLocaleString documentation for the appropriate locale format and pass it to the locale prop.
+| Prop                   | Type                                      | Default            | Required |
+| ---------------------- | ----------------------------------------- | ------------------ | -------- |
+| mode                   | `"year"` \| `"month"` \| `"year-month"`   | year               | No       |
+| date                   | `YearMonthType`                           | —                  | Yes      |
+| setDate                | `Dispatch<SetStateAction<YearMonthType>>` | —                  | Yes      |
+| message                | `string`                                  | Pick a date        | No       |
+| disabled               | `boolean`                                 | false              | No       |
+| id                     | `string`                                  | —                  | No       |
+| inputClassName         | `string`                                  | ymp-input          | No       |
+| containerClassName     | `string`                                  | ymp-container      | No       |
+| headerClassName        | `string`                                  | ymp-header         | No       |
+| bodyContainerClassName | `string`                                  | ymp-body-container | No       |
+| bodyClassName          | `string`                                  | ymp-body           | No       |
+| buttonClassName        | `string`                                  | ymp-button         | No       |
