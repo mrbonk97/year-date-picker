@@ -35,12 +35,12 @@ const YearMonthPicker = ({
   date,
   setDate,
   id,
-  inputClassName = "rymp-input",
-  containerClassName = "rymp-container",
-  headerClassName = "rymp-header",
-  bodyContainerClassName = "rymp-body-container",
-  bodyClassName = "rymp-body",
-  buttonClassName = "rymp-button",
+  inputClassName = "ymp-input",
+  containerClassName = "ymp-container",
+  headerClassName = "ymp-header",
+  bodyContainerClassName = "ymp-body-container",
+  bodyClassName = "ymp-body",
+  buttonClassName = "ymp-button",
   message = "Pick a date",
   disabled = false,
 }: Props) => {
@@ -130,7 +130,7 @@ const YearMonthPicker = ({
                 <YearMonthBody
                   range={100}
                   startNumber={2025}
-                  bodyClassName={`${bodyClassName} ${isNext ? "rymp-close" : "rymp-open"}`}
+                  bodyClassName={`${bodyClassName} ${isNext ? "ymp-close" : "ymp-open"}`}
                   buttonClassName={buttonClassName}
                   onClick={selectYear}
                   curValue={date.year}
@@ -140,7 +140,7 @@ const YearMonthPicker = ({
                 <YearMonthBody
                   range={12}
                   startNumber={1}
-                  bodyClassName={`${bodyClassName} ${isNext ? "rymp-open" : "rymp-init"}`}
+                  bodyClassName={`${bodyClassName} ${isNext ? "ymp-open" : "ymp-init"}`}
                   buttonClassName={buttonClassName}
                   onClick={selectMonth}
                   curValue={date.month}
@@ -202,7 +202,7 @@ const YearMonthBody = ({
     <div className={bodyClassName}>
       {list.map((item) => (
         <button
-          key={`rymp-${item}`}
+          key={`ymp-${item}`}
           type="button"
           onClick={() => onClick(item)}
           className={buttonClassName}
