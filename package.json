@@ -1,7 +1,7 @@
 {
   "name": "year-month-picker",
   "private": false,
-  "version": "1.0.0",
+  "version": "1.0.3",
   "license": "MIT",
   "main": "dist/year-month-picker.umd.js",
   "module": "dist/year-month-picker.es.js",

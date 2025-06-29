@@ -1,14 +1,9 @@
-import {
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState,
-  type Dispatch,
-  type SetStateAction,
-} from "react";
+import { useEffect, useRef, useState, type Dispatch, type SetStateAction } from "react";
 import { createPortal } from "react-dom";
 
 const OFFSET_Y = 4;
+const DROPDOWN_WIDTH = 206;
+const DROPDOWN_HEIGHT = 196;
 
 type YearMonthType = {
   year: number | null;
@@ -16,10 +11,11 @@ type YearMonthType = {
 };
 
 interface Props {
-  type: "year" | "month" | "year-month";
+  mode: "year" | "month" | "year-month";
   date: YearMonthType;
   setDate: Dispatch<SetStateAction<YearMonthType>>;
   id?: string;
+  name?: string;
   inputClassName?: string;
   containerClassName?: string;
   headerClassName?: string;
@@ -31,10 +27,11 @@ interface Props {
 }
 
 const YearMonthPicker = ({
-  type = "year",
+  mode = "year",
   date,
   setDate,
   id,
+  name = "year",
   inputClassName = "ymp-input",
   containerClassName = "ymp-container",
   headerClassName = "ymp-header",
@@ -63,7 +60,7 @@ const YearMonthPicker = ({
 
   function selectYear(n: number) {
     setDate({ year: n, month: null });
-    if (type == "year-month") setIsNext(true);
+    if (mode == "year-month") setIsNext(true);
     else handleClose();
   }
 
@@ -89,16 +86,33 @@ const YearMonthPicker = ({
       handleClose();
     };
 
-    document.addEventListener("click", handleClickOutside);
-    return () => document.removeEventListener("click", handleClickOutside);
-  }, [setIsOpen]);
+    const handleResize = () => {
+      if (buttonRef.current) {
+        const rect = buttonRef.current.getBoundingClientRect();
 
-  useLayoutEffect(() => {
-    if (isOpen && buttonRef.current) {
-      const rect = buttonRef.current.getBoundingClientRect();
-      setPosition({ top: rect.top + rect.height, left: rect.left });
-    }
-  }, [isOpen]);
+        let top = rect.top + rect.height + window.scrollY + OFFSET_Y;
+        let left = rect.left + window.scrollX;
+
+        if (top + DROPDOWN_HEIGHT > window.innerHeight + window.scrollY) {
+          top = rect.top + window.scrollY - DROPDOWN_HEIGHT - OFFSET_Y;
+        }
+        if (left + DROPDOWN_WIDTH > window.innerWidth + window.scrollX) {
+          left = rect.left + rect.width - DROPDOWN_WIDTH + window.scrollX;
+        }
+
+        setPosition({ top, left });
+      }
+    };
+
+    const resizeObserver = new ResizeObserver(handleResize);
+    if (buttonRef.current) resizeObserver.observe(buttonRef.current);
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+      if (buttonRef.current) resizeObserver.unobserve(buttonRef.current);
+    };
+  }, [setIsOpen]);
 
   return (
     <>
@@ -106,6 +120,7 @@ const YearMonthPicker = ({
         readOnly
         ref={buttonRef}
         id={id}
+        name={name}
         aria-haspopup="dialog"
         disabled={disabled}
         placeholder={message}
@@ -116,41 +131,44 @@ const YearMonthPicker = ({
           handleOpen();
         }}
       />
-      {createPortal(
-        <YearMonthContainer
-          isOpen={isOpen}
-          className={containerClassName}
-          top={position.top + OFFSET_Y}
-          left={position.left}
-        >
-          <YearMonthHeader message={getMessage()} className={headerClassName} />
-          <div className={bodyContainerClassName} ref={containerRef}>
-            <>
-              {(type == "year" || type == "year-month") && (
-                <YearMonthBody
-                  range={100}
-                  startNumber={2025}
-                  bodyClassName={`${bodyClassName} ${isNext ? "ymp-close" : "ymp-open"}`}
-                  buttonClassName={buttonClassName}
-                  onClick={selectYear}
-                  curValue={date.year}
-                />
-              )}
-              {(type == "month" || type == "year-month") && (
-                <YearMonthBody
-                  range={12}
-                  startNumber={1}
-                  bodyClassName={`${bodyClassName} ${isNext ? "ymp-open" : "ymp-init"}`}
-                  buttonClassName={buttonClassName}
-                  onClick={selectMonth}
-                  curValue={date.month}
-                />
-              )}
-            </>
-          </div>
-        </YearMonthContainer>,
-        document.body
-      )}
+      {typeof window !== "undefined" &&
+        createPortal(
+          <YearMonthContainer
+            isOpen={isOpen}
+            className={containerClassName}
+            top={position.top}
+            left={position.left}
+          >
+            <YearMonthHeader message={getMessage()} className={headerClassName} />
+            <div className={bodyContainerClassName} ref={containerRef}>
+              <>
+                {(mode == "year" || mode == "year-month") && (
+                  <YearMonthBody
+                    range={100}
+                    startNumber={2025}
+                    bodyClassName={`${bodyClassName} ${isNext ? "ymp-close" : "ymp-open"}`}
+                    buttonClassName={buttonClassName}
+                    onClick={selectYear}
+                    curValue={date.year}
+                  />
+                )}
+                {(mode == "month" || mode == "year-month") && (
+                  <YearMonthBody
+                    range={12}
+                    startNumber={1}
+                    bodyClassName={`${bodyClassName} ${mode == "month" ? "ymp-open" : ""}${
+                      isNext && mode == "year-month" ? "ymp-open" : ""
+                    }${!isNext && mode == "year-month" ? "ymp-init" : ""}`}
+                    buttonClassName={buttonClassName}
+                    onClick={selectMonth}
+                    curValue={date.month}
+                  />
+                )}
+              </>
+            </div>
+          </YearMonthContainer>,
+          document.body
+        )}
     </>
   );
 };
@@ -206,7 +224,7 @@ const YearMonthBody = ({
           type="button"
           onClick={() => onClick(item)}
           className={buttonClassName}
-          aria-selected={item == curValue}
+          aria-pressed={item == curValue}
         >
           {item}
         </button>
