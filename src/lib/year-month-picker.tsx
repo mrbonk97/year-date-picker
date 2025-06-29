@@ -16,7 +16,7 @@ type YearMonthType = {
 };
 
 interface Props {
-  type: "year" | "month" | "year-month";
+  mode: "year" | "month" | "year-month";
   date: YearMonthType;
   setDate: Dispatch<SetStateAction<YearMonthType>>;
   id?: string;
@@ -31,7 +31,7 @@ interface Props {
 }
 
 const YearMonthPicker = ({
-  type = "year",
+  mode = "year",
   date,
   setDate,
   id,
@@ -63,7 +63,7 @@ const YearMonthPicker = ({
 
   function selectYear(n: number) {
     setDate({ year: n, month: null });
-    if (type == "year-month") setIsNext(true);
+    if (mode == "year-month") setIsNext(true);
     else handleClose();
   }
 
@@ -96,7 +96,10 @@ const YearMonthPicker = ({
   useLayoutEffect(() => {
     if (isOpen && buttonRef.current) {
       const rect = buttonRef.current.getBoundingClientRect();
-      setPosition({ top: rect.top + rect.height, left: rect.left });
+      setPosition({
+        top: rect.top + rect.height + window.scrollY,
+        left: rect.left + window.scrollX,
+      });
     }
   }, [isOpen]);
 
@@ -126,7 +129,7 @@ const YearMonthPicker = ({
           <YearMonthHeader message={getMessage()} className={headerClassName} />
           <div className={bodyContainerClassName} ref={containerRef}>
             <>
-              {(type == "year" || type == "year-month") && (
+              {(mode == "year" || mode == "year-month") && (
                 <YearMonthBody
                   range={100}
                   startNumber={2025}
@@ -136,11 +139,15 @@ const YearMonthPicker = ({
                   curValue={date.year}
                 />
               )}
-              {(type == "month" || type == "year-month") && (
+              {(mode == "month" || mode == "year-month") && (
                 <YearMonthBody
                   range={12}
                   startNumber={1}
-                  bodyClassName={`${bodyClassName} ${isNext ? "ymp-open" : "ymp-init"}`}
+                  bodyClassName={`${bodyClassName}
+                  ${isNext && mode == "month" && "ymp-open"}
+                  ${isNext && mode == "year-month" && "ymp-open"}
+                  ${!isNext && mode == "year-month" && "ymp-init"}
+                  `}
                   buttonClassName={buttonClassName}
                   onClick={selectMonth}
                   curValue={date.month}
