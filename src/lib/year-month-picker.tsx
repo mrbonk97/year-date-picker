@@ -20,6 +20,7 @@ interface Props {
   date: YearMonthType;
   setDate: Dispatch<SetStateAction<YearMonthType>>;
   id?: string;
+  name?: string;
   inputClassName?: string;
   containerClassName?: string;
   headerClassName?: string;
@@ -35,6 +36,7 @@ const YearMonthPicker = ({
   date,
   setDate,
   id,
+  name = "year",
   inputClassName = "ymp-input",
   containerClassName = "ymp-container",
   headerClassName = "ymp-header",
@@ -109,6 +111,7 @@ const YearMonthPicker = ({
         readOnly
         ref={buttonRef}
         id={id}
+        name={name}
         aria-haspopup="dialog"
         disabled={disabled}
         placeholder={message}
@@ -143,11 +146,9 @@ const YearMonthPicker = ({
                 <YearMonthBody
                   range={12}
                   startNumber={1}
-                  bodyClassName={`${bodyClassName}
-                  ${isNext && mode == "month" && "ymp-open"}
-                  ${isNext && mode == "year-month" && "ymp-open"}
-                  ${!isNext && mode == "year-month" && "ymp-init"}
-                  `}
+                  bodyClassName={`${bodyClassName} ${mode == "month" ? "ymp-open" : ""}${
+                    isNext && mode == "year-month" ? "ymp-open" : ""
+                  }${!isNext && mode == "year-month" ? "ymp-init" : ""}`}
                   buttonClassName={buttonClassName}
                   onClick={selectMonth}
                   curValue={date.month}
@@ -213,7 +214,7 @@ const YearMonthBody = ({
           type="button"
           onClick={() => onClick(item)}
           className={buttonClassName}
-          aria-selected={item == curValue}
+          aria-pressed={item == curValue}
         >
           {item}
         </button>
