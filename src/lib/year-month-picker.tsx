@@ -1,14 +1,9 @@
-import {
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState,
-  type Dispatch,
-  type SetStateAction,
-} from "react";
+import { useEffect, useRef, useState, type Dispatch, type SetStateAction } from "react";
 import { createPortal } from "react-dom";
 
 const OFFSET_Y = 4;
+const DROPDOWN_WIDTH = 206;
+const DROPDOWN_HEIGHT = 196;
 
 type YearMonthType = {
   year: number | null;
@@ -91,19 +86,33 @@ const YearMonthPicker = ({
       handleClose();
     };
 
-    document.addEventListener("click", handleClickOutside);
-    return () => document.removeEventListener("click", handleClickOutside);
-  }, [setIsOpen]);
+    const handleResize = () => {
+      if (buttonRef.current) {
+        const rect = buttonRef.current.getBoundingClientRect();
 
-  useLayoutEffect(() => {
-    if (isOpen && buttonRef.current) {
-      const rect = buttonRef.current.getBoundingClientRect();
-      setPosition({
-        top: rect.top + rect.height + window.scrollY,
-        left: rect.left + window.scrollX,
-      });
-    }
-  }, [isOpen]);
+        let top = rect.top + rect.height + window.scrollY + OFFSET_Y;
+        let left = rect.left + window.scrollX;
+
+        if (top + DROPDOWN_HEIGHT > window.innerHeight + window.scrollY) {
+          top = rect.top + window.scrollY - DROPDOWN_HEIGHT - OFFSET_Y;
+        }
+        if (left + DROPDOWN_WIDTH > window.innerWidth + window.scrollX) {
+          left = rect.left + rect.width - DROPDOWN_WIDTH + window.scrollX;
+        }
+
+        setPosition({ top, left });
+      }
+    };
+
+    const resizeObserver = new ResizeObserver(handleResize);
+    if (buttonRef.current) resizeObserver.observe(buttonRef.current);
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+      if (buttonRef.current) resizeObserver.unobserve(buttonRef.current);
+    };
+  }, [setIsOpen]);
 
   return (
     <>
@@ -122,43 +131,44 @@ const YearMonthPicker = ({
           handleOpen();
         }}
       />
-      {createPortal(
-        <YearMonthContainer
-          isOpen={isOpen}
-          className={containerClassName}
-          top={position.top + OFFSET_Y}
-          left={position.left}
-        >
-          <YearMonthHeader message={getMessage()} className={headerClassName} />
-          <div className={bodyContainerClassName} ref={containerRef}>
-            <>
-              {(mode == "year" || mode == "year-month") && (
-                <YearMonthBody
-                  range={100}
-                  startNumber={2025}
-                  bodyClassName={`${bodyClassName} ${isNext ? "ymp-close" : "ymp-open"}`}
-                  buttonClassName={buttonClassName}
-                  onClick={selectYear}
-                  curValue={date.year}
-                />
-              )}
-              {(mode == "month" || mode == "year-month") && (
-                <YearMonthBody
-                  range={12}
-                  startNumber={1}
-                  bodyClassName={`${bodyClassName} ${mode == "month" ? "ymp-open" : ""}${
-                    isNext && mode == "year-month" ? "ymp-open" : ""
-                  }${!isNext && mode == "year-month" ? "ymp-init" : ""}`}
-                  buttonClassName={buttonClassName}
-                  onClick={selectMonth}
-                  curValue={date.month}
-                />
-              )}
-            </>
-          </div>
-        </YearMonthContainer>,
-        document.body
-      )}
+      {typeof window !== "undefined" &&
+        createPortal(
+          <YearMonthContainer
+            isOpen={isOpen}
+            className={containerClassName}
+            top={position.top}
+            left={position.left}
+          >
+            <YearMonthHeader message={getMessage()} className={headerClassName} />
+            <div className={bodyContainerClassName} ref={containerRef}>
+              <>
+                {(mode == "year" || mode == "year-month") && (
+                  <YearMonthBody
+                    range={100}
+                    startNumber={2025}
+                    bodyClassName={`${bodyClassName} ${isNext ? "ymp-close" : "ymp-open"}`}
+                    buttonClassName={buttonClassName}
+                    onClick={selectYear}
+                    curValue={date.year}
+                  />
+                )}
+                {(mode == "month" || mode == "year-month") && (
+                  <YearMonthBody
+                    range={12}
+                    startNumber={1}
+                    bodyClassName={`${bodyClassName} ${mode == "month" ? "ymp-open" : ""}${
+                      isNext && mode == "year-month" ? "ymp-open" : ""
+                    }${!isNext && mode == "year-month" ? "ymp-init" : ""}`}
+                    buttonClassName={buttonClassName}
+                    onClick={selectMonth}
+                    curValue={date.month}
+                  />
+                )}
+              </>
+            </div>
+          </YearMonthContainer>,
+          document.body
+        )}
     </>
   );
 };
